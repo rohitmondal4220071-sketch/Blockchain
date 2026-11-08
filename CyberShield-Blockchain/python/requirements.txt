@@ -1,0 +1,7 @@
+# CyberShield AI — Python Blockchain Integration
+#
+# Install these packages before running:
+#   pip install web3 hexbytes
+
+web3>=6.0.0
+hexbytes>=0.3.0

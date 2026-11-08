@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Strict grayscale palette (Requirement 2.1) — all HSL saturation 0% */
+  --grayscale-white: 0 0% 100%;
+  --grayscale-90: 0 0% 90%;
+  --grayscale-70: 0 0% 70%;
+  --grayscale-50: 0 0% 50%;
+  --grayscale-20: 0 0% 20%;
+  --grayscale-10: 0 0% 10%;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  /* Dark Earth/space fallback — shown before EarthBackground mounts so the
+     first paint never flashes a flat color. Matches EarthBackground's base. */
+  background-color: #060a12;
+  background-image: radial-gradient(
+    120% 90% at 50% -10%,
+    #243044 0%,
+    #131c28 38%,
+    #0a111b 70%,
+    #060a12 100%
+  );
+  background-attachment: fixed;
+  color: hsl(var(--grayscale-white));
+  font-family: var(--font-poppins), system-ui, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Hide scrollbars on the cinematic single-screen experience */
+body {
+  overflow-x: hidden;
+}
+
+@layer components {
+  /* ---- Light liquid glass (Requirements 4.1, 4.2, 4.4, 4.6) ---- */
+  .liquid-glass {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.01);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    border-radius: 1.5rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 0 24px rgba(255, 255, 255, 0.03),
+      0 8px 24px rgba(0, 0, 0, 0.25);
+    isolation: isolate;
+  }
+
+  /* Gradient-glow edge outline via pseudo-element (no CSS border). */
+  .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.28),
+      rgba(255, 255, 255, 0.04) 40%,
+      rgba(255, 255, 255, 0.12)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Soft top reflection. */
+  .liquid-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 40%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ---- Heavy liquid glass (Requirements 4.3, 4.4, 4.6) ---- */
+  .liquid-glass-strong {
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.03);
+    -webkit-backdrop-filter: blur(50px) saturate(120%);
+    backdrop-filter: blur(50px) saturate(120%);
+    border-radius: 2rem;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.18),
+      inset 0 0 60px rgba(255, 255, 255, 0.04),
+      0 24px 80px rgba(0, 0, 0, 0.5),
+      0 4px 16px rgba(0, 0, 0, 0.35);
+    isolation: isolate;
+  }
+
+  .liquid-glass-strong::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.45),
+      rgba(255, 255, 255, 0.06) 45%,
+      rgba(255, 255, 255, 0.2)
+    );
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .liquid-glass-strong::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.12),
+      transparent 45%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Glow used on hover/focus of pills and buttons. */
+  .glass-glow {
+    transition:
+      background-color 300ms ease,
+      box-shadow 300ms ease,
+      transform 300ms ease;
+  }
+
+  .glass-glow:hover,
+  .glass-glow:focus-visible {
+    background-color: rgba(255, 255, 255, 0.08);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 0 24px rgba(255, 255, 255, 0.18),
+      0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+}
+
+/* Ensure content inside glass surfaces sits above the ::after reflection. */
+.liquid-glass > *,
+.liquid-glass-strong > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Floating ambient animation (disabled under reduced motion). */
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Subtle shimmer on the background gradient while the video loads. */
+@keyframes bg-shimmer {
+  0% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+  100% { opacity: 0.3; }
+}
+
+.bg-shimmer {
+  animation: bg-shimmer 3s ease-in-out infinite;
+}
+
+/* Emergency SOS pulse — a soft transparent-red ring that breathes to signal
+   urgency without harsh solid red. */
+@keyframes sos-pulse {
+  0% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 0 0 rgba(244, 63, 94, 0.45),
+      0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+  70% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 0 18px rgba(244, 63, 94, 0),
+      0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+  100% {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.12),
+      0 0 0 0 rgba(244, 63, 94, 0),
+      0 8px 28px rgba(0, 0, 0, 0.35);
+  }
+}
+
+.sos-pulse {
+  animation: sos-pulse 2s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

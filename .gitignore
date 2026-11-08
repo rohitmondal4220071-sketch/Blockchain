@@ -1,0 +1,66 @@
+# ── Dependencies ─────────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Next.js build output ─────────────────────────────────────────
+.next/
+out/
+build/
+
+# ── Environment variables — NEVER commit these ───────────────────
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ── Hardhat / Blockchain ─────────────────────────────────────────
+CyberShield-Blockchain/node_modules/
+CyberShield-Blockchain/artifacts/
+CyberShield-Blockchain/cache/
+CyberShield-Blockchain/typechain-types/
+CyberShield-Blockchain/coverage/
+CyberShield-Blockchain/coverage.json
+CyberShield-Blockchain/deployment.json
+
+# ── Python ───────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+*.egg
+.venv/
+venv/
+env/
+
+# ── OS files ─────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ── Editor ───────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── Logs ─────────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# ── TypeScript ───────────────────────────────────────────────────
+*.tsbuildinfo
+next-env.d.ts
+
+*.zip
+*.tar.gz
+*.rar
